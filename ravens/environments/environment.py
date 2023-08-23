@@ -70,18 +70,18 @@ class Environment(gym.Env):
     self.pix_size = 0.003125
     self.obj_ids = {'fixed': [], 'rigid': [], 'deformable': []}
     self.homej = np.array([-1, -0.5, 0.5, -0.5, -0.5, 0]) * np.pi
-    self.agent_cams = cameras.RealSenseD415.CONFIG
+    self.agent_cams = cameras.RealSenseD415.CONFIG  # {list:3} 每个是{dict:6} 'image_size','intrinsics','position','rotation','zrange','noise'
 
-    self.assets_root = assets_root
+    self.assets_root = assets_root  # assets的路径 '../ravens/environments/assets/'
 
     color_tuple = [
         gym.spaces.Box(0, 255, config['image_size'] + (3,), dtype=np.uint8)
         for config in self.agent_cams
-    ]
+    ]  # {list:3} {Box:(480,640,3)} uint 最大255
     depth_tuple = [
         gym.spaces.Box(0.0, 20.0, config['image_size'], dtype=np.float32)
         for config in self.agent_cams
-    ]
+    ]  # {list:3} {Box:(480,640)} float 最大20.0
     self.observation_space = gym.spaces.Dict({
         'color': gym.spaces.Tuple(color_tuple),
         'depth': gym.spaces.Tuple(depth_tuple),

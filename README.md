@@ -135,3 +135,43 @@ The MDP formulation for each task uses transitions with the following structure:
 **Rewards:** total sum of rewards for a successful episode should be =1.
 
 **Info:** 6D poses, sizes, and colors of objects.
+
+
+# 笔记
+## 安装
+```bash
+# 新建anaconda环境
+conda create -n ravens python=3.7
+conda activate ravens
+# 安装cudatoolkit和cudnn，对应关系见：https://developer.nvidia.com/rdp/cudnn-archive
+#conda install cudatoolkit=11.3 -y
+#conda install cudnn==8.2.1 -y
+conda install cudatoolkit==10.1.243 -y
+conda install cudnn==7.6.5 -y
+# 安装ravens包
+python setup.py install --user
+```
+
+## 数据集和预训练模型
+```bash
+cd /data/net/dl_data/ProjectDatasets_bkx/ravens_dataset/
+wget https://storage.googleapis.com/ravens-assets/checkpoints.zip
+wget https://storage.googleapis.com/ravens-assets/block-insertion.zip
+wget https://storage.googleapis.com/ravens-assets/place-red-in-green.zip
+wget https://storage.googleapis.com/ravens-assets/towers-of-hanoi.zip
+wget https://storage.googleapis.com/ravens-assets/align-box-corner.zip
+wget https://storage.googleapis.com/ravens-assets/stack-block-pyramid.zip
+wget https://storage.googleapis.com/ravens-assets/palletizing-boxes.zip
+wget https://storage.googleapis.com/ravens-assets/assembling-kits.zip
+wget https://storage.googleapis.com/ravens-assets/packing-boxes.zip
+wget https://storage.googleapis.com/ravens-assets/manipulating-rope.zip
+wget https://storage.googleapis.com/ravens-assets/sweeping-piles.zip
+```
+
+## 代码说明
+```
+ravens/tasks/planners.py
+```
+定义了在连续环境中几个与运动规划相关的类，`Planner`抽象基类，定义了一种基于样条的规划器。它提供了一种通用的方法来处理位置和旋转的插值，但要求子类实现两个方法：`_preprocess_poses` 和 `_postprocess_poses`。  \
+`PickPlacePlanner`
+
